@@ -18,6 +18,11 @@ username admin privilege 1 password 7 0822404F1A0A
 spanning-tree mode pvst
 spanning-tree extend system-id
 !
+interface Port-channel1
+ switchport trunk allowed vlan 10,20,30
+ switchport mode trunk
+ switchport nonegotiate
+!
 interface FastEthernet0/1
  switchport trunk native vlan 99
  switchport trunk allowed vlan 10,20,30
@@ -68,14 +73,28 @@ interface FastEthernet0/19
 interface FastEthernet0/20
 !
 interface FastEthernet0/21
+ switchport trunk allowed vlan 10,20,30
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 1 mode active
 !
 interface FastEthernet0/22
+ switchport trunk allowed vlan 10,20,30
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 1 mode active
 !
 interface FastEthernet0/23
+ switchport trunk allowed vlan 10,20,30
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 1 mode active
 !
 interface FastEthernet0/24
- switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30
  switchport mode trunk
+ switchport nonegotiate
+ channel-group 1 mode active
 !
 interface GigabitEthernet0/1
 !
@@ -96,6 +115,8 @@ interface Vlan30
 !
 interface Vlan99
  ip address 192.168.99.2 255.255.255.0
+!
+ip default-gateway 192.168.99.1
 !
 banner motd **
 !
