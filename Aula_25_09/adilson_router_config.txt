@@ -1,0 +1,167 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R1
+!
+!
+!
+!
+ip dhcp excluded-address 192.168.10.1 192.168.10.10
+ip dhcp excluded-address 192.168.20.1 192.168.20.10
+ip dhcp excluded-address 192.168.30.1 192.168.30.10
+!
+ip dhcp pool VLAN-10
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+ dns-server 192.168.10.1
+ domain-name VLAN-10
+ip dhcp pool VLAN-20
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
+ dns-server 192.168.20.1
+ domain-name VLAN-20
+ip dhcp pool VLAN-30
+ network 192.168.30.0 255.255.255.0
+ default-router 192.168.30.1
+ dns-server 192.168.30.1
+ domain-name VLAN-30
+!
+!
+!
+ip cef
+ipv6 unicast-routing
+!
+no ipv6 cef
+!
+ipv6 dhcp pool IPV6-VLAN-10
+ address prefix 2001:BEBE:CAFE:D0CE::/64 lifetime 172800 86400
+ dns-server 2001:DB8:ACAD:1::254
+ domain-name CCNA
+!
+ipv6 dhcp pool IPV6-VLAN-20
+ address prefix 2002:BEBE:CAFE:D0CE::/64 lifetime 172800 86400
+ dns-server 2001:DB8:ACAD:1::254
+ domain-name CCNA
+!
+ipv6 dhcp pool IPV6-VLAN-30
+ address prefix 2003:BEBE:CAFE:D0CE::/64 lifetime 172800 86400
+ dns-server 2001:DB8:ACAD:1::254
+ domain-name CCNA
+!
+!
+!
+username admin privilege 15 password 0 Class
+!
+!
+license udi pid CISCO1941/K9 sn FTX15242822-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup
+ip domain-name CCNA
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Interface Trunk
+ no ip address
+ duplex auto
+ speed auto
+ ipv6 enable
+!
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 enable
+ ipv6 dhcp server IPV6-VLAN-10
+!
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 enable
+ ipv6 dhcp server IPV6-VLAN-20
+!
+interface GigabitEthernet0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 enable
+ ipv6 dhcp server IPV6-VLAN-30
+!
+interface GigabitEthernet0/0.99
+ encapsulation dot1Q 99 native
+ no ip address
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 enable
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/0/0
+ ip address 10.10.10.1 255.255.255.0
+ clock rate 2000000
+!
+interface Serial0/0/1
+ no ip address
+ clock rate 2000000
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 Serial0/0/0 
+!
+ip flow-export version 9
+!
+!
+!
+no cdp run
+!
+banner motd # BEM VINDO AO R1 #
+!
+!
+!
+!
+line con 0
+ password Cisco
+ logging synchronous
+ login local
+ privilege level 15
+!
+line aux 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+ privilege level 15
+!
+!
+!
+end
+
