@@ -7,7 +7,7 @@ SWA>en
 SWA#configure terminal
 SWA(config)#interface range g0/1-2
 SWA(config-if-range)#channel-protocol pagp
-SWA(config-if-range)#channel-group 1 mode disarable
+SWA(config-if-range)#channel-group 1 mode desirable
 SWA(config-if-range)#no shutdown
 SWA(config-if-range)#exit
 SWA(config)#interface port-channel 1
